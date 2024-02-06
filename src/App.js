@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import background from "./assets/Background4.jpeg";
-import { Storage, DataStore } from 'aws-amplify';
+import { DataStore } from 'aws-amplify';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Define email regex
 
@@ -31,14 +31,10 @@ const App = () => {
 
     // Placeholder for server-side logic:
     try {
-    // Upload file to S3 using Storage
-    await Storage.put(fileName, file);
-
-    // Store file and email information in DataStore
     const newFileData = {
       fileName,
       email,
-      fileKey: fileName // Assuming you want to store the filename as the key
+      // fileKey: fileName (Not needed if not storing actual file)
     };
     await DataStore.save(newFileData);
 
