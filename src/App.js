@@ -28,36 +28,25 @@ const App = () => {
     }
 
     const s3 = new AWS.S3({
-      accessKeyId: 'AKIA5FTZEGKMXFASN3TR',
-      secretAccessKey: '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',
+      accessKeyId: '',
+      secretAccessKey: '',
       region: 'us-east-1'
     });
 
-     const file = document.querySelector('input[type="file"]').files[0];
-
+    
 
     // Placeholder for server-side logic:
     try {
-    // Upload email as a separate object with a unique key
-    await s3.upload({
-      Bucket: 'cvbucket-123',
-      Key: `email-${Date.now()}.txt`, // Unique key for email
-      Body: email
-    }).promise();
+      console.log('File:', fileName);
+      console.log('Email:', email);
 
-    // Upload the file with its original filename
-    await s3.upload({
-      Bucket: 'cvbucket-123',
-      Key: fileName,
-      Body: file
-    }).promise();
-
-    setError('Submission successful!');
-  } catch (error) {
-    console.error(error);
-    setError('An error occurred during submission. Please try again.');
-  }
-};
+      // Send file and email to server here
+      setError('Submission successful!');
+    } catch (error) {
+      console.error(error);
+      setError('An error occurred during submission. Please try again.');
+    }
+  };
 
   return (
     <div style={styles.container}>
