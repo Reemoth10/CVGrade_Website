@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import background from "./assets/Background4.jpeg";
+import axios from 'axios';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Define email regex
 
@@ -20,25 +21,57 @@ const App = () => {
   setError('');
 };
 
-  const handleSubmit = async () => {
+  // const handleSubmit = async () => {
+  //   if (!EMAIL_REGEX.test(email)) {
+  //     setError('Please enter a valid email address.');
+  //     return;
+  //   }
+
+  // // const file = document.querySelector('input[type="file"]').files[0];
+
+  //   // Placeholder for server-side logic:
+  //   try {
+  //     console.log('File:', fileName);
+  //     console.log('Email:', email);
+
+  //     // Send file and email to server here
+  //     setError('Submission successful!');
+  //   } catch (error) {
+  //     console.error(error);
+  //     setError('An error occurred during submission. Please try again.');
+  //   }
+
+      // Get the selected file from the Dropzone component
+const handleSubmit = async () => {
+  try {
+    // Validate email
     if (!EMAIL_REGEX.test(email)) {
       setError('Please enter a valid email address.');
       return;
     }
 
-  // const file = document.querySelector('input[type="file"]').files[0];
+    // Get the selected file from the Dropzone component
+    const file = document.querySelector('input[type="file"]').files[0];
 
-    // Placeholder for server-side logic:
-    try {
-      console.log('File:', fileName);
-      console.log('Email:', email);
+    // Create a FormData object to send file and email
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('email', email);
 
-      // Send file and email to server here
-      setError('Submission successful!');
-    } catch (error) {
-      console.error(error);
-      setError('An error occurred during submission. Please try again.');
-    }
+    // Send the data to your server-side endpoint that handles S3 uploads
+    const response = await axios.post('http://cv-s3-123-abc.s3-website-us-east-1.amazonaws.com', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    // Handle the response from the server
+    console.log(response.data);
+    setError('Submission successful!');
+  } catch (error) {
+    console.error(error);
+    setError('An error occurred during submission. Please try again.');
+  }
 
   };
 
