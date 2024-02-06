@@ -27,7 +27,7 @@ const App = () => {
       return;
     }
 
-  const file = document.querySelector('input[type="file"]').files[0];
+  const fileName = document.querySelector('input[type="file"]').files[0];
 
     // Placeholder for server-side logic:
     try {
