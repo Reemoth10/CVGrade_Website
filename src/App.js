@@ -8,18 +8,17 @@ const App = () => {
   const [fileName, setFileName] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
-  const [isColored, setIsColored] = useState(false);
-
-
+ 
   const handleFileUpload = (acceptedFiles) => {
     const file = acceptedFiles[0];
     setFileName(file.name);
   };
 
-  const handleEmailChange = (text) => {
-    setEmail(text);
-    setError('');
-  };
+  const handleEmailChange = (e) => {
+  const newText = e.target.value;
+  setEmail(newText);
+  setError('');
+};
 
   const handleSubmit = async () => {
     if (!EMAIL_REGEX.test(email)) {
