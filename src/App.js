@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import background from "./assets/Background4.jpeg";
+import Amplify, { Storage } from 'aws-amplify';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Define email regex
 
@@ -26,18 +27,23 @@ const App = () => {
       return;
     }
 
+    const file = document.querySelector('input[type="file"]').files[0];
+
+
     // Placeholder for server-side logic:
     try {
-      console.log('File:', fileName);
-      console.log('Email:', email);
+    // Upload email using Amplify Storage
+    await Storage.put(`email-${Date.now()}.txt`, email);
 
-      // Send file and email to server here
-      setError('Submission successful!');
-    } catch (error) {
-      console.error(error);
-      setError('An error occurred during submission. Please try again.');
-    }
-  };
+    // Upload the file with its original filename using Amplify Storage
+    await Storage.put(fileName, file);
+
+    setError('Submission successful!');
+  } catch (error) {
+    console.error(error);
+    setError('An error occurred during submission. Please try again.');
+  }
+};
 
   return (
     <div style={styles.container}>
