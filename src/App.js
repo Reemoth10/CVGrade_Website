@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import background from "./assets/Background4.jpeg";
-import Amplify, { Storage } from 'aws-amplify';
+import AWS from 'aws-sdk';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Define email regex
 
@@ -27,16 +27,30 @@ const App = () => {
       return;
     }
 
-    const file = document.querySelector('input[type="file"]').files[0];
+    const s3 = new AWS.S3({
+      accessKeyId: 'AKIA5FTZEGKMXFASN3TR',
+      secretAccessKey: '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',
+      region: 'us-east-1'
+    });
+
+     const file = document.querySelector('input[type="file"]').files[0];
 
 
     // Placeholder for server-side logic:
     try {
-    // Upload email using Amplify Storage
-    await Storage.put(`email-${Date.now()}.txt`, email);
+    // Upload email as a separate object with a unique key
+    await s3.upload({
+      Bucket: 'cvbucket-123',
+      Key: `email-${Date.now()}.txt`, // Unique key for email
+      Body: email
+    }).promise();
 
-    // Upload the file with its original filename using Amplify Storage
-    await Storage.put(fileName, file);
+    // Upload the file with its original filename
+    await s3.upload({
+      Bucket: 'cvbucket-123',
+      Key: fileName,
+      Body: file
+    }).promise();
 
     setError('Submission successful!');
   } catch (error) {
