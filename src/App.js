@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
-import background from "./assets/Background4.jpeg";
+import background from "./assets/Background.jpeg";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Define email regex
 
@@ -26,7 +26,6 @@ const App = () => {
       return;
     }
 
-  // const file = document.querySelector('input[type="file"]').files[0];
 
     // Placeholder for server-side logic:
     try {
@@ -44,11 +43,9 @@ const App = () => {
 
   return (
     <div style={styles.container}>
-      {/* <img src={require('./assets/Background4.jpeg')} alt="Background" style={styles.BGImage}></img> */}
-
       <div style={styles.content}>
 
-        <img src={require('./assets/Center3.png')} style={styles.centerImage} />
+        <img src={require('./assets/Center.png')} style={styles.centerImage} />
         <h1 style={styles.CenterText}>
           Let's work together to make your <span style={{color: '#1cb43c'}}>CV</span> stand out!
         </h1>
